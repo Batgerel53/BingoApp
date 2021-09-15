@@ -1,0 +1,383 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Bingo !{% endblock %}
+
+{% block stylesheets %}
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <style>
+
+        .col-sm {
+            padding: 1rem;
+            background-color: #1038d2;
+            border: 2px solid #fff;
+            color: #fff;
+            text-align: center;
+        }
+
+        .col-xl {
+            padding: 1rem;
+            background-color: rgb(255, 186, 0);
+            border: 2px solid #fff;
+            color: #0000ee;
+            text-align: center;
+            height: 670px;
+        }
+
+        /*[class*="con"] {*/
+        /*    padding: 1rem;*/
+        /*    background-color: #9e33e5;*/
+        /*    border: 2px solid #fff;*/
+        /*    color: #fff;*/
+        /*    text-align: center;*/
+        /*}*/
+
+        .col-sm {
+            height: 700px;
+        }
+
+        .display-4 {
+            font-size: 46px;
+            font-weight: bold;
+        }
+
+        .line {
+            width: 120px;
+            height: 5px;
+            background-color: white;
+        }
+
+        .line2
+        {
+            display: flex;
+        }
+
+        .lead
+        {
+            font-size: 36px;
+            color: #0000ee;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .lead2 {
+            font-size: 30px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .calc
+        {
+            border-radius: 28px;
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(8, 66px);
+        }
+
+        button {
+            box-shadow: inset 6px 6px 13px #fff, 6px 6px 13px rgba(0, 0, 0, .16);
+            color: #0000ee;
+            font-weight: bold;
+            background-color: rgb(255, 186, 0);
+            border: none;
+            border-radius: 50%;
+            width:  50px;
+            height: 50px;
+            margin: 10px;
+        }
+
+        ::placeholder {
+            color: blue;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        input {
+            grid-column: span 3;
+            height: 48px;
+            width: 167px;
+            box-shadow: inset -6px -6px 13px #fff, inset 6px 6px 13px rgba(0, 0, 0, .16);
+            background-color: #ecf0f3;
+            border: none;
+            border-radius: 32px;
+            color: rgba(26, 25, 25, 16);
+            text-align: end;
+            margin: 0px 0px 30px 10px;
+            padding: 20px;
+            font-size: 30px;
+        }
+
+        .on {
+            height: 48px;
+            width: 100px;
+            box-shadow: inset -6px -6px 13px #fff, inset 6px 6px 13px rgba(0, 0, 0, .16);
+            background-color: #ecf0f3;
+            border: none;
+            border-radius: 32px;
+            color: rgba(26, 25, 25, 16);
+            text-align: end;
+            margin: 0px -15px;
+            padding: 20px;
+            font-size: 40px;
+        }
+
+        .send {
+            height: 48px;
+            width: 140px;
+            box-shadow: inset -6px -6px 13px #fff, inset 6px 6px 13px rgba(0, 0, 0, .16);
+            background-color: #ecf0f3;
+            border: none;
+            border-radius: 32px;
+            color: rgba(26, 25, 25, 16);
+            text-align: end;
+            margin:-80px 420px;
+            padding: 20px;
+            font-size: 40px;
+        }
+
+        label {
+            padding: 20px 30px;
+            display: inline-block;
+        }
+
+        .labelT
+        {
+            font-size: 12px;
+        }
+        #username
+        {
+            background: #6093de;
+            width: 210px;
+
+        }
+
+        #usernameS
+        {
+            background: #6093de;
+            width: 120px;
+        }
+        /*.arrow {*/
+        /*    border: solid #fff9f9;*/
+        /*    border-width: 0 3px 3px 0;*/
+        /*    display: inline-block;*/
+        /*    padding: 3px;*/
+        /*}*/
+
+        /*.right {*/
+        /*    transform: rotate(-45deg);*/
+        /*    -webkit-transform: rotate(-45deg);*/
+        /*}*/
+
+        .triangle-right
+            {
+            width: 0;
+            height: 0;
+            margin: 7px 5px;
+             }
+        .triangle-right
+        {
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+        }
+        .triangle-right{
+            border-left:
+                    20px solid white;
+        }
+        .triangle-right-on
+        {
+            width: 0;
+            height: 0;
+            margin:7px -90px;
+        }
+        .triangle-right-on
+        {
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+        }
+        .triangle-right-on
+        {
+            border-left: 20px solid white;
+        }
+
+        .triangle-right-on2
+        {
+            width: 0;
+            height: 0;
+            margin:7px -90px;
+        }
+
+        .triangle-right-on2
+        {
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+        }
+
+        .triangle-right-on2
+        {
+            border-left: 20px solid white;
+        }
+
+        .video-container{
+            width: 600px;
+            height: 600px;
+        }
+
+        iframe {
+            position: absolute;
+            top: 30%;
+            left: 30%;
+            width: 600px;
+            height: 600px;
+            transform: translate(-50%, -50%);
+        }
+
+
+        #text{
+            position: absolute;
+            color: #3e3ee8;
+            left: 30%;
+            top: 10%;
+            transform: translate(-50%, -50%);
+        }
+
+        p
+        {
+            font-size: 36px;
+        }
+
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://unpkg.com/@popperjs/core@2.4.0/dist/umd/popper.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+{% endblock %}
+{% block body %}
+
+    <div class="container-md">
+        <div class="row">
+
+            <div class="col-sm bg-white">
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/aQ_63ErrQDk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <div id="text">
+                    <p> 05:00 </p>
+                </div>
+
+
+            </div>
+
+            <div class="col-xl">
+                <h5 class="display-4"> БИНГО </h5>
+                <p class="lead">
+                    Дурын 3 тоог таагаад шагналуудын эзэн болоорой
+                </p>
+                <div class="calc">
+                    <input type="text" class="inputext" placeholder="131313">
+{#                    <i class="arrow right"></i>#}
+                    <div class="triangle-right"></div>
+                    <input type="text" class="on" placeholder="On">
+                    <div class="triangle-right-on"></div>
+                    <input type="text" class="send" placeholder="Send">
+                    <button> 0</button>
+                    <button> 1</button>
+                    <button> 2</button>
+                    <button> 3</button>
+                    <button> 4</button>
+                    <button> 5</button>
+                    <button> 6</button>
+                    <button> 7</button>
+                    <button> 8</button>
+                    <button> 9</button>
+                    <button> 10</button>
+                    <button> 11</button>
+                    <button> 12</button>
+                    <button> 13</button>
+                    <button> 14</button>
+                    <button> 15</button>
+                    <button> 16</button>
+                    <button> 17</button>
+                    <button> 18</button>
+                    <button> 19</button>
+                    <button> 20</button>
+                    <button> 21</button>
+                    <button> 22</button>
+                    <button> 23</button>
+                    <button> 24</button>
+                    <button> 25</button>
+                    <button> 26</button>
+                    <button> 27</button>
+                    <button> 28</button>
+                    <button> 29</button>
+                    <button> 30</button>
+                    <button> 31</button>
+                    <button> 32</button>
+                    <button> 33</button>
+                    <button> 34</button>
+                    <button> 35</button>
+                    <button> 36</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm">
+                <span class="line">   </span>
+                <h5 class="display-4"> ХАРИУЛААД ХОЖ </h5>
+                <span class="line2">   </span>
+
+                <div class="calc">
+                    <input type="text" class="inputext" placeholder="131313">
+                    <div class="triangle-right"></div>
+                    <input type="text" class="on" placeholder="On">
+                    <div class="triangle-right-on2"></div>
+                    <input type="text" class="send" placeholder="Send">
+                </div>
+
+                <p class="lead2">
+                    Шилдэг оролцогчид
+                </p>
+
+                <form method="post" action="#">
+
+                    <label for="username" class="labelT"> Хэрэглэгчийн дугаар </label>
+                    <label for="username" class="labelT"> Урамшууллын эрх </label>
+                    <label for="username" class="labelT"> Мессеж илгээх хугацаа </label>
+
+{#                <label for="username" class="labelT">Хэрэглэгчийн дугаар </label>#}
+
+                <input type="text" id="username"/>
+                <input type="text" id="usernameS" />
+                <input type="text" id="username" />
+                <input type="text" id="username" />
+                <input type="text" id="usernameS" />
+{#                <label for="password" class="labelT">Урамшууллын эрх </label>#}
+
+                <input type="text" id="username" />
+                <input type="text" id="username" />
+                <input type="text" id="usernameS" />
+                <input type="text" id="username" />
+                <input type="text" id="username" />
+
+{#                <label for="password" class="labelT">Мессеж илгээсэн хугацаа </label>#}
+
+                <input type="text" id="usernameS" />
+                <input type="text" id="username" />
+                <input type="text" id="username" />
+                <input type="text" id="usernameS" />
+                <input type="text" id="username" />
+
+                </form>
+
+            </div>
+
+            <div class="col-sm bg-info"> 4</div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,503 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Bingo !{% endblock %}
+
+{% block stylesheets %}
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+
+    <style>
+
+        .base-timer {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        .base-timer__svg {
+            transform: scaleX(-1);
+        }
+
+        .base-timer__circle {
+            fill: none;
+            stroke: none;
+        }
+
+        .base-timer__path-elapsed {
+            stroke-width: 7px;
+            stroke: grey;
+        }
+
+        .base-timer__path-remaining {
+            stroke-width: 7px;
+            stroke-linecap: round;
+            transform: rotate(90deg);
+            transform-origin: center;
+            transition: 1s linear all;
+            fill-rule: nonzero;
+            stroke: currentColor;
+        }
+
+        .base-timer__path-remaining.green {
+            color: rgb(65, 184, 131);
+        }
+
+        .base-timer__path-remaining.orange {
+            color: orange;
+        }
+
+        .base-timer__path-remaining.red {
+            color: red;
+        }
+
+        .base-timer__label {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+        /* column     */
+
+        .col-md {
+            padding: 1rem;
+            background-color: #1038d2;
+            border: 2px solid #fff;
+            color: #fff;
+            text-align: center;
+            height: 760px;
+        }
+
+        .col-sm {
+            padding: 1rem;
+            background-color: rgb(217, 217, 56);
+            border: 2px solid #fff;
+            color: #0000ee;
+            text-align: center;
+            height: 200px;
+        }
+
+        .display-4 {
+            font-size: 46px;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        .lead2 {
+            font-size: 30px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        ::placeholder {
+            color: blue;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        input {
+            grid-column: span 3;
+            display: flex;
+            height: 48px;
+            width: 167px;
+            box-shadow: inset -6px -6px 13px #fff, inset 6px 6px 13px rgba(0, 0, 0, .16);
+            background-color: #ecf0f3;
+            border: none;
+            border-radius: 32px;
+            color: rgba(26, 25, 25, 16);
+            text-align: end;
+            margin: 0px 10px 10px 250px;
+            padding: 20px;
+            font-size: 30px;
+        }
+
+        .on {
+            height: 48px;
+            width: 100px;
+            box-shadow: inset -6px -6px 13px #fff, inset 6px 6px 13px rgba(0, 0, 0, .16);
+            background-color: #ecf0f3;
+            border: none;
+            border-radius: 32px;
+            color: rgba(26, 25, 25, 16);
+            text-align: end;
+            margin: -40px 10px 10px 580px;
+            padding: 0px 25px 0px 1px;
+            font-size: 40px;
+        }
+
+        .send {
+            height: 48px;
+            width: 140px;
+            box-shadow: inset -6px -6px 13px #fff, inset 6px 6px 13px rgba(0, 0, 0, .16);
+            background-color: #ecf0f3;
+            border: none;
+            border-radius: 32px;
+            color: rgba(26, 25, 25, 16);
+            text-align: end;
+            margin: -45px 10px 10px 850px;
+            padding: 0px 25px 0px 1px;
+            font-size: 40px;
+        }
+
+        label {
+            padding: 20px 100px;
+            display: inline-block;
+        }
+
+        .labelT {
+            font-size: 20px;
+        }
+
+        #username {
+            background: #6093de;
+            width: 210px;
+        }
+
+        #usernameS {
+            background: #6093de;
+            width: 120px;
+        }
+
+        .triangle-right {
+            width: 0;
+            height: 0;
+            margin: -45px 0px 0px 480px;
+            border-left: 20px solid white;
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+        }
+
+        .triangle-right-on2 {
+            width: 0;
+            height: 0;
+            margin: -45px 0px 0px 760px;
+            border-left: 20px solid white;
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+        }
+
+        .linet {
+            position: relative;
+            top: 25px;
+            bottom: 0;
+            right: 360px;
+            width: 60px;
+            height: 2px;
+            background-color: #ecf0f3;
+            float: right;
+        }
+
+        .linet2 {
+            position: relative;
+            bottom: 35px;
+            left: 300px;
+            right: 12px;
+            width: 60px;
+            height: 2px;
+            background-color: #ecf0f3;
+        }
+
+        .num {
+            grid-template-columns: repeat(3, 66px);
+            height: 48px;
+            float: left;
+            width: 300px;
+            background-color: #1727c9;
+            border: solid 1px #ecf0f3;
+            border-radius: 32px;
+            color: rgba(26, 25, 25, 16);
+            text-align: end;
+            margin: 0px 0px 30px 100px;
+            padding: 20px;
+            font-size: 30px;
+        }
+
+        .numS {
+            position: relative;
+            bottom: 25px;
+            color: white;
+            font-weight: bold;
+            padding-right: 50px;
+        }
+
+        .list {
+            width: 15px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: orange;
+            padding: 20px 15px;
+            margin: -17px -17px;
+            border: solid 1px #ecf0f3;
+        }
+
+        .numlist {
+            color: #1727c9;
+            font-weight: bold;
+            margin: -25px 0px 0px -10px;
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    <script src="https://unpkg.com/@popperjs/core@2.4.0/dist/umd/popper.min.js"></script>
+    <script src="js/bootsrap.js"></script>
+
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+            integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+            crossorigin="anonymous"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.slim.js"
+            integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="
+            crossorigin="anonymous"></script>
+
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+
+
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm border 1px red">
+
+                <script>
+
+                    const FULL_DASH_ARRAY = 283;
+                    const WARNING_THRESHOLD = 10;
+                    const ALERT_THRESHOLD = 5;
+
+                    const COLOR_CODES = {
+                        info: {
+                            color: "green"
+                        },
+
+                        warning: {
+                            color: "orange",
+                            threshold: WARNING_THRESHOLD
+                        },
+                        alert: {
+                            color: "red",
+                            threshold: ALERT_THRESHOLD
+                        }
+                    };
+
+                    const TIME_LIMIT = 3600;
+                    let timePassed = 0;
+                    let timeLeft = TIME_LIMIT;
+                    let timerInterval = null;
+                    let remainingPathColor = COLOR_CODES.info.color;
+
+                    document.getElementById("app").innerHTML = `
+<div class="base-timer">
+  <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g class="base-timer__circle">
+      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+      <path
+        id="base-timer-path-remaining"
+        stroke-dasharray="283"
+        class="base-timer__path-remaining ${remainingPathColor}"
+        d="
+          M 50, 50
+          m -45, 0
+          a 45,45 0 1,0 90,0
+          a 45,45 0 1,0 -90,0
+        "
+      ></path>
+    </g>
+  </svg>
+  <span id="base-timer-label" class="base-timer__label">${formatTime(
+                        timeLeft
+                    )}</span>
+</div>
+`;
+
+                    startTimer();
+
+                    function onTimesUp() {
+                        clearInterval(timerInterval);
+                    }
+
+                    function startTimer() {
+                        timerInterval = setInterval(() => {
+                            timePassed = timePassed += 1;
+                            timeLeft = TIME_LIMIT - timePassed;
+                            document.getElementById("base-timer-label").innerHTML = formatTime(
+                                timeLeft
+                            );
+                            setCircleDasharray();
+                            setRemainingPathColor(timeLeft);
+
+                            if (timeLeft === 0) {
+                                onTimesUp();
+                            }
+                        }, 1000);
+                    }
+
+                    function formatTime(time) {
+                        const minutes = Math.floor(time / 60);
+                        let seconds = time % 60;
+
+                        if (seconds < 10) {
+                            seconds = `0${seconds}`;
+                        }
+
+                        return `${minutes}:${seconds}`;
+                    }
+
+                    function setRemainingPathColor(timeLeft) {
+                        const {alert, warning, info} = COLOR_CODES;
+                        if (timeLeft <= alert.threshold) {
+                            document
+                                .getElementById("base-timer-path-remaining")
+                                .classList.remove(warning.color);
+                            document
+                                .getElementById("base-timer-path-remaining")
+                                .classList.add(alert.color);
+                        } else if (timeLeft <= warning.threshold) {
+                            document
+                                .getElementById("base-timer-path-remaining")
+                                .classList.remove(info.color);
+                            document
+                                .getElementById("base-timer-path-remaining")
+                                .classList.add(warning.color);
+                        }
+                    }
+
+                    function calculateTimeFraction() {
+                        const rawTimeFraction = timeLeft / TIME_LIMIT;
+                        return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
+                    }
+
+                    function setCircleDasharray() {
+                        const circleDasharray = `${(
+                            calculateTimeFraction() * FULL_DASH_ARRAY
+                        ).toFixed(0)} 283`;
+                        document
+                            .getElementById("base-timer-path-remaining")
+                            .setAttribute("stroke-dasharray", circleDasharray);
+                    }
+
+                </script>
+                <div id="app"></div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md border 1px green">
+
+                <div class="line-container">
+                    <div class="linet"></div>
+                    <h5 class="display-4"> ХАРИУЛААД ХОЖ </h5>
+                    <div class="linet2"></div>
+                </div>
+                <input type="text" class="inputext" placeholder="131313">
+                <div class="triangle-right"></div>
+                <input type="text" class="on" placeholder="On">
+                <div class="triangle-right-on2"></div>
+                <input type="text" class="send" placeholder="Send">
+
+                <p class="lead2">
+                    Шилдэг оролцогчид
+                </p>
+
+
+                <form method="post" action="#">
+                    <label for="username" class="labelT"> Хэрэглэгчийн дугаар </label>
+                    <label for="username" class="labelT"> Урамшууллын эрх </label>
+                    <label for="username" class="labelT"> Мессеж илгээсэн хугацаа </label>
+
+                    <div class="num">
+                        <div class="list">
+                            <div class="numlist"> 1</div>
+                        </div>
+                        <span class="numS">  98118033</span></div>
+                    <div class="num"><span class="numS">  98118033</span></div>
+                    <div class="num"><span class="numS">  98118033</span></div>
+                    <div class="num">
+                        <div class="list">
+                            <div class="numlist"> 2</div>
+                        </div>
+                        <span class="numS">  98118033</span></div>
+                    <div class="num"><span class="numS"> 98118033 </span></div>
+
+                    <div class="num"><span class="numS">  98118033</span></div>
+                    <div class="num">
+                        <div class="list">
+                            <div class="numlist"> 3</div>
+                        </div>
+                        <span class="numS"> 98118033 </span></div>
+                    <div class="num"><span class="numS"> 98118033 </span></div>
+                    <div class="num"><span class="numS"> 98118033 </span></div>
+                    <div class="num">
+                        <div class="list">
+                            <div class="numlist"> 4</div>
+                        </div>
+                        <span class="numS"> 98118033 </span></div>
+
+                    <div class="num"><span class="numS"> 98118033 </span></div>
+                    <div class="num"><span class="numS"> 98118033 </span></div>
+                    <div class="num">
+                        <div class="list">
+                            <div class="numlist"> 5</div>
+                        </div>
+                        <span class="numS"> 98118033 </span></div>
+                    <div class="num"><span class="numS"> 98118033 </span></div>
+                    <div class="num"><span class="numS"> 98118033 </span></div>
+
+
+                    {# <input type="text" id="username"/> #}
+                    {# <input type="text" id="usernameS" /> #}
+                    {# <input type="text" id="username" /> #}
+                    {# <input type="text" id="username" /> #}
+                    {# <input type="text" id="usernameS" /> #}
+
+                    {# <input type="text" id="username" /> #}
+                    {# <input type="text" id="username" /> #}
+                    {# <input type="text" id="usernameS" /> #}
+                    {# <input type="text" id="username" /> #}
+                    {# <input type="text" id="username" /> #}
+
+                    {# <input type="text" id="usernameS" /> #}
+                    {# <input type="text" id="username" /> #}
+                    {# <input type="text" id="username" /> #}
+                    {# <input type="text" id="usernameS" /> #}
+                    {# <input type="text" id="username" /> #}
+                </form>
+
+            </div>
+
+
+            <p class="lead2">
+                Шилдэг оролцогчид
+            </p>
+        </div>
+    </div>
+    </div>
+
+    </div>
+
+
+{% endblock %}
